@@ -10,16 +10,19 @@ public class GaugeManager : MonoBehaviour {
     [SerializeField]
     private GaugeController[] m_GaugeControllers;
 
+    /// <summary>
+    /// ターン獲得したインデックス
+    /// </summary>
     private int m_TurnIndex;
 
     private void Awake()
     {
         foreach (var gauge in m_GaugeControllers)
         {
-            gauge.speed = 100;
+            gauge.SetSpeed(123);
         }
 
-        StartCoroutine(GoUpdateGauge());
+        StartCoroutine(DoUpdateGauge());
     }
 
     /// <summary>
@@ -33,7 +36,7 @@ public class GaugeManager : MonoBehaviour {
         }
     }
 
-    private IEnumerator GoUpdateGauge()
+    private IEnumerator DoUpdateGauge()
     {
         m_TurnIndex = -1;
 
@@ -53,31 +56,39 @@ public class GaugeManager : MonoBehaviour {
             // ゲージ更新
             UpdateGauge();
 
-            m_TurnIndex = CheckTurn();
+            // ターン獲得チェック
+            CheckTurn();
 
             yield return null;
         }
     }
 
-    private int CheckTurn()
+    /// <summary>
+    /// ターン獲得チェック
+    /// </summary>
+    private void CheckTurn()
     {
-        int index = -1;
-
-        for( int i = 0; i < m_GaugeControllers.Length; ++i )
+        m_TurnIndex = -1;
+        for (int i = 0; i < m_GaugeControllers.Length; ++i)
         {
-            if( m_GaugeControllers[i].gauge < 100.0f )
+            if (m_GaugeControllers[i].gauge < 100.0f)
             {
                 continue;
             }
 
-            if (index == -1 || 
-                m_GaugeControllers[index].gauge < m_GaugeControllers[i].gauge)
+            if (m_TurnIndex == -1 ||
+                m_GaugeControllers[m_TurnIndex].gauge < m_GaugeControllers[i].gauge)
             {
-                index = i;
+                m_TurnIndex = i;
             }
         }
 
-        return index;
+        if (m_TurnIndex == -1)
+        {
+            return;
+        }
+
+        m_GaugeControllers[m_TurnIndex].OnTurn();
     }
 
     public void OnTurn()

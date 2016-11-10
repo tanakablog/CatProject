@@ -4,6 +4,17 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class GaugeController : MonoBehaviour {
+
+    /// <summary>
+    /// 速度テキスト文言
+    /// </summary>
+    private static readonly string speedTextWord = "速度：{0}";
+
+    /// <summary>
+    /// ゲージテキスト文言
+    /// </summary>
+    private static readonly string gaugeTextWord = "ゲージ：{0}";
+
     /// <summary>
     /// ゲージバーイメージ
     /// </summary>
@@ -11,22 +22,36 @@ public class GaugeController : MonoBehaviour {
     private Image m_BarImage;
 
     /// <summary>
+    /// 速度テキスト
+    /// </summary>
+    [SerializeField]
+    private Text m_TotalSpeedText;
+
+    /// <summary>
+    /// ゲージテキスト
+    /// </summary>
+    [SerializeField]
+    private Text m_GaugeText;
+
+    /// <summary>   
     /// 速度
     /// </summary>
     private int m_Speed;
-    public int speed
-    {
-        get { return m_Speed; }
-        set { m_Speed = value; }
-    }
 
     /// <summary>
-    /// ゲージ
+    /// ゲージ量
     /// </summary>
     private float m_Gauge;
     public float gauge
     {
         get { return m_Gauge; }
+    }
+
+    public void SetSpeed(int speed)
+    {
+        m_TotalSpeedText.text = string.Format(GaugeController.speedTextWord, speed);
+
+        m_Speed = speed;
     }
 
 
@@ -37,7 +62,7 @@ public class GaugeController : MonoBehaviour {
     {
         m_Gauge += (float)m_Speed * rate;
 
-        UpdateGaugeBar();
+        UpdateGauge();
     }
 
     /// <summary>
@@ -47,14 +72,26 @@ public class GaugeController : MonoBehaviour {
     {
         m_Gauge = 0.0f;
 
-        UpdateGaugeBar();
+        m_BarImage.color = Color.white;
+
+        UpdateGauge();
     }
 
     /// <summary>
-    /// ゲージバー更新
+    /// ターン獲得
     /// </summary>
-    private void UpdateGaugeBar()
+    public void OnTurn()
+    {
+        m_BarImage.color = ConstTable.turnBarColor;
+    }
+
+    /// <summary>
+    /// ゲージ更新
+    /// </summary>
+    private void UpdateGauge()
     {
         m_BarImage.fillAmount = Mathf.Clamp(m_Gauge * 0.01f, 0.0f, 1.0f);
+
+        m_GaugeText.text = string.Format(GaugeController.gaugeTextWord, m_Gauge);
     }
 }
