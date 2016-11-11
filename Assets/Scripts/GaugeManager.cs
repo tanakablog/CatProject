@@ -15,6 +15,11 @@ public class GaugeManager : MonoBehaviour {
     /// </summary>
     private int m_TurnIndex;
 
+	/// <summary>
+	/// シュミレート管理
+	/// </summary>
+	private SimulateManager m_SimulateManager;
+
     private void Awake()
     {
         foreach (var gauge in m_GaugeControllers)
@@ -24,6 +29,34 @@ public class GaugeManager : MonoBehaviour {
 
         StartCoroutine(DoUpdateGauge());
     }
+
+	/// <summary>
+	/// 初期化
+	/// </summary>
+	public void Initialize(SimulateManager manager)
+	{
+		m_SimulateManager = manager;
+
+		foreach (var gauge in m_GaugeControllers) {
+			gauge.Initialize (this);
+		}
+	}
+
+	/// <summary>
+	/// 施設レート変更
+	/// </summary>
+	/// <param name="rate">Rate.</param>
+	public void OnChangeFacilityRate( int rate )
+	{
+		foreach (var gauge in m_GaugeControllers) 
+		{
+		}
+	}
+
+	public void GetFacilityRate()
+	{
+		return m_SimulateManager.facilityRate;
+	}
 
     /// <summary>
     /// ゲージ更新

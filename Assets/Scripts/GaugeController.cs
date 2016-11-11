@@ -15,28 +15,43 @@ public class GaugeController : MonoBehaviour {
     /// </summary>
     private static readonly string gaugeTextWord = "ゲージ：{0}";
 
+	/// <summary>
+	/// 元速度入力フィールド
+	/// </summary>
+	[SerializeField]
+	private InputField m_OriginSpeedInputField;
+	public InputField originSpeedInputField
+	{
+		get{ return m_OriginSpeedInputField; }
+	}
+
+	/// <summary>
+	/// 速度テキスト
+	/// </summary>
+	[SerializeField]
+	private Text m_TotalSpeedText;
+
+	/// <summary>
+	/// ゲージテキスト
+	/// </summary>
+	[SerializeField]
+	private Text m_GaugeText;
+
     /// <summary>
     /// ゲージバーイメージ
     /// </summary>
     [SerializeField]
     private Image m_BarImage;
 
-    /// <summary>
-    /// 速度テキスト
-    /// </summary>
-    [SerializeField]
-    private Text m_TotalSpeedText;
-
-    /// <summary>
-    /// ゲージテキスト
-    /// </summary>
-    [SerializeField]
-    private Text m_GaugeText;
+	/// <summary>
+	/// 元速度
+	/// </summary>
+	private int m_OriginSpeed;
 
     /// <summary>   
-    /// 速度
+    /// トータル速度
     /// </summary>
-    private int m_Speed;
+    private int m_TotalSpeed;
 
     /// <summary>
     /// ゲージ量
@@ -47,11 +62,37 @@ public class GaugeController : MonoBehaviour {
         get { return m_Gauge; }
     }
 
+	/// <summary>
+	/// ゲージ管理
+	/// </summary>
+	[SerializeField]
+	private GaugeManager m_GaugeManager;
+
+	/// <summary>
+	/// 初期化
+	/// </summary>
+	public void Initialize(GaugeManager manager )
+	{
+		m_GaugeManager = manager;
+	}
+
+	public void CalcTotalSpeedAfterSetTotalSpeed()
+	{
+		// トータル速度算出
+		float total_speed = (float)m_OriginSpeed * (1.0f + (float)m_GaugeManager.GetFacilityRate () * 0.01f);
+
+
+	}
+
+	/// <summary>
+	/// 速度設定
+	/// </summary>
+	/// <param name="speed">Speed.</param>
     public void SetSpeed(int speed)
     {
         m_TotalSpeedText.text = string.Format(GaugeController.speedTextWord, speed);
 
-        m_Speed = speed;
+		m_TotalSpeed = speed;
     }
 
 
@@ -60,7 +101,7 @@ public class GaugeController : MonoBehaviour {
     /// </summary>
     public void AddGaugeFromRate(float rate)
     {
-        m_Gauge += (float)m_Speed * rate;
+		m_Gauge += (float)m_TotalSpeed * rate;
 
         UpdateGauge();
     }

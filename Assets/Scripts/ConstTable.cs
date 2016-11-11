@@ -2,6 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public class Utility {
+
+	public static int RoundUpIntFromFloat(float value )
+	{
+		return (int)(value + 0.9f);
+	}
+}
+
 public class ConstTable : MonoBehaviour {
 
     /// <summary>

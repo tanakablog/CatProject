@@ -1,0 +1,24 @@
+﻿<Properties StartupItem="Assembly-CSharp.csproj">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/Scripts/ConstTable.cs">
+    <Files>
+      <File FileName="Assets/Scripts/SimulateManager.cs" Line="24" Column="18" />
+      <File FileName="Assets/Scripts/GaugeController.cs" Line="84" Column="3" />
+      <File FileName="Assets/Scripts/GaugeManager.cs" Line="58" Column="1" />
+      <File FileName="Assets/Scripts/ConstTable.cs" Line="25" Column="1" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches>
+    <Watch file="../game-mb-client2/Assets/MB/Scripts/Data/Master/MasterQuestList.cs" line="221" offsetX="544" offsetY="3075" expression="item.QuestId" liveUpdate="False" />
+    <Watch file="../game-mb-client2/Assets/MB/Scripts/Scene/Events/EventRewardItem.cs" line="19" offsetX="583" offsetY="242" expression="data.rewardItems" liveUpdate="False" />
+    <Watch file="../game-mb-client2/Assets/MB/Scripts/Common/Util/Util.cs" line="315" offsetX="414" offsetY="4020" expression="item[0]" liveUpdate="False" />
+    <Watch file="../game-mb-client2/Assets/MB/Scripts/Scene/BundlePage/StoryEvent/StoryEventQuestController.cs" line="115" offsetX="429" offsetY="1650" expression="quest.QuestId" liveUpdate="False" />
+    <Watch file="../game-mb-client2/Assets/MB/Scripts/Scene/MyMenu/Banner/BannerManager.cs" line="157" offsetX="681" offsetY="2250" expression="list.list._items" liveUpdate="False" />
+    <Watch file="../game-mb-client2/Assets/MB/Scripts/Data/Player/Quest/PlayerQuestInfoList.cs" line="105" offsetX="385" offsetY="1275" expression="itemList._items" liveUpdate="False" />
+    <Watch file="../game-mb-client3/Assets/MB/Scripts/Battle/Core/BattleManager.cs" line="346" offsetX="429" offsetY="4920" expression="charaId" liveUpdate="False" />
+    <Watch file="../game-mb-client3/Assets/MB/Scripts/Common/Effect/EffectManager.cs" line="165" offsetX="371" offsetY="2460" expression="effect.Id" liveUpdate="False" />
+  </MonoDevelop.Ide.DebuggingService.PinnedWatches>
+</Properties>
