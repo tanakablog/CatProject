@@ -29,6 +29,8 @@ public class SimulateManager : MonoBehaviour {
 	void Awake()
 	{
 		m_FacilityInputField.onEndEdit.AddListener (OnFacilityInput);
+
+        m_GaugeManager.Initialize(this);
 	}
 
 	public void OnFacilityInput( string input )
@@ -37,8 +39,10 @@ public class SimulateManager : MonoBehaviour {
 		
 		int.TryParse (input, out m_FacilityRate);
 
-		// 計算結果を表示
-		m_FacilityInputField.text = m_FacilityRate;
+        // 計算結果を表示
+        m_FacilityInputField.text = m_FacilityRate.ToString();
+
+        m_GaugeManager.OnChangeFacilityRate();
 	}
 
 	/// <summary>
@@ -46,6 +50,9 @@ public class SimulateManager : MonoBehaviour {
 	/// </summary>
 	public void OnStartSimulate()
 	{
+        m_FacilityInputField.readOnly = true;
+
+        m_GaugeManager.OnStartSimulate();
 	}
 
 }

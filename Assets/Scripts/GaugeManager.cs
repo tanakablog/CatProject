@@ -22,12 +22,7 @@ public class GaugeManager : MonoBehaviour {
 
     private void Awake()
     {
-        foreach (var gauge in m_GaugeControllers)
-        {
-            gauge.SetSpeed(123);
-        }
 
-        StartCoroutine(DoUpdateGauge());
     }
 
 	/// <summary>
@@ -35,25 +30,47 @@ public class GaugeManager : MonoBehaviour {
 	/// </summary>
 	public void Initialize(SimulateManager manager)
 	{
+        // シュミレート管理取得
 		m_SimulateManager = manager;
 
+        // ゲージ制御初期化
 		foreach (var gauge in m_GaugeControllers) {
 			gauge.Initialize (this);
 		}
-	}
+    }
+
+    /// <summary>
+    /// シュミレート開始
+    /// </summary>
+    public void OnStartSimulate()
+    {
+        foreach (var gauge in m_GaugeControllers)
+        {
+            gauge.OnStartSimulate();
+        }
+
+        // ゲージ更新開始
+        StartCoroutine(DoUpdateGauge());
+    }
 
 	/// <summary>
 	/// 施設レート変更
 	/// </summary>
 	/// <param name="rate">Rate.</param>
-	public void OnChangeFacilityRate( int rate )
+	public void OnChangeFacilityRate()
 	{
 		foreach (var gauge in m_GaugeControllers) 
 		{
+            // トータル速度設定
+            gauge.CalcTotalSpeedAfterSetTotalSpeed();
 		}
 	}
 
-	public void GetFacilityRate()
+    /// <summary>
+    /// 施設レート取得
+    /// </summary>
+    /// <returns></returns>
+	public int GetFacilityRate()
 	{
 		return m_SimulateManager.facilityRate;
 	}
@@ -69,14 +86,20 @@ public class GaugeManager : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// ゲージ更新コルーチン
+    /// </summary>
+    /// <returns></returns>
     private IEnumerator DoUpdateGauge()
     {
+        // ターンインデックス初期化
         m_TurnIndex = -1;
 
         int count = 0;
 
         while(true)
         {
+            // ターン獲得チェック
             if (m_TurnIndex >= 0)
             {
                 yield return null;

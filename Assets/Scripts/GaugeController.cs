@@ -6,9 +6,9 @@ using UnityEngine.UI;
 public class GaugeController : MonoBehaviour {
 
     /// <summary>
-    /// 速度テキスト文言
+    /// トータル速度テキスト文言
     /// </summary>
-    private static readonly string speedTextWord = "速度：{0}";
+    private static readonly string totalSpeedTextWord = "速度：{0}";
 
     /// <summary>
     /// ゲージテキスト文言
@@ -65,7 +65,6 @@ public class GaugeController : MonoBehaviour {
 	/// <summary>
 	/// ゲージ管理
 	/// </summary>
-	[SerializeField]
 	private GaugeManager m_GaugeManager;
 
 	/// <summary>
@@ -73,29 +72,55 @@ public class GaugeController : MonoBehaviour {
 	/// </summary>
 	public void Initialize(GaugeManager manager )
 	{
+        // ゲージ管理取得
 		m_GaugeManager = manager;
+
+        // 元速度入力コールバック設定
+        m_OriginSpeedInputField.onEndEdit.AddListener(OnOriginSpeedInput);
 	}
 
-	public void CalcTotalSpeedAfterSetTotalSpeed()
-	{
-		// トータル速度算出
-		float total_speed = (float)m_OriginSpeed * (1.0f + (float)m_GaugeManager.GetFacilityRate () * 0.01f);
-
-
-	}
-
-	/// <summary>
-	/// 速度設定
-	/// </summary>
-	/// <param name="speed">Speed.</param>
-    public void SetSpeed(int speed)
+    /// <summary>
+    /// 元速度入力
+    /// </summary>
+    private void OnOriginSpeedInput(string value)
     {
-        m_TotalSpeedText.text = string.Format(GaugeController.speedTextWord, speed);
+        m_OriginSpeed = 0;
 
-		m_TotalSpeed = speed;
+        int.TryParse(value, out m_OriginSpeed);
+
+        CalcTotalSpeedAfterSetTotalSpeed();
     }
 
+    public void OnStartSimulate()
+    {
+        m_OriginSpeedInputField.readOnly = true;
+    }
 
+    /// <summary>
+    /// トータル速度算出後設定
+    /// </summary>
+	public void CalcTotalSpeedAfterSetTotalSpeed()
+    {
+        // トータル速度算出
+        float total_speed = (float)m_OriginSpeed * (1.0f + (float)m_GaugeManager.GetFacilityRate() * 0.01f);
+
+        // トータル速度設定
+        SetTotalSpeed(Utility.RoundUpIntFromFloat(total_speed));
+    }
+
+	/// <summary>
+	/// トータル速度設定
+	/// </summary>
+	/// <param name="speed">Speed.</param>
+    public void SetTotalSpeed(int speed)
+    {
+        // テキスト設定
+        m_TotalSpeedText.text = string.Format(GaugeController.totalSpeedTextWord, speed);
+
+        // 速度設定
+		m_TotalSpeed = speed;
+    }
+    
     /// <summary>
     /// レートからゲージ加算
     /// </summary>
