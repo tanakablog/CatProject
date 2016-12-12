@@ -22,7 +22,7 @@ public class GaugeController : MonoBehaviour {
 	private InputField m_OriginSpeedInputField;
 	public InputField originSpeedInputField
 	{
-		get{ return m_OriginSpeedInputField; }
+       get{ return m_OriginSpeedInputField; }
 	}
 
 	/// <summary>
@@ -48,7 +48,7 @@ public class GaugeController : MonoBehaviour {
 	/// </summary>
 	private int m_OriginSpeed;
 
-    /// <summary>   
+    /// <summary>
     /// トータル速度
     /// </summary>
     private int m_TotalSpeed;
@@ -120,7 +120,7 @@ public class GaugeController : MonoBehaviour {
         // 速度設定
 		m_TotalSpeed = speed;
     }
-    
+
     /// <summary>
     /// レートからゲージ加算
     /// </summary>
